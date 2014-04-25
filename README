@@ -12,7 +12,7 @@ Building
 ========
 Creating OpenNI2 package:
   - Go into the directory 'Packaging'
-  - Run ReleaseVersion.py [android]
+  - Run "ReleaseVersion.py android"
     NOTE: for android, NDK_ROOT must be defined, pointing to the NDK installation dir.
   - Installer will be placed in the 'Final' directory
 
