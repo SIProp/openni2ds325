@@ -23,7 +23,11 @@
 #include <XnLog.h>
 #include <XnOSCpp.h>
 
+#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
+static const char* ONI_CONFIGURATION_FILE = "/system/lib/OpenNI.ini";
+#else
 static const char* ONI_CONFIGURATION_FILE = "OpenNI.ini";
+#endif
 static const char* ONI_DEFAULT_DRIVERS_REPOSITORY = "OpenNI2" XN_FILE_DIR_SEP "Drivers";
 
 #define XN_MASK_ONI_CONTEXT "OniContext"
