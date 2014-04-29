@@ -42,8 +42,13 @@
 #include <asm/types.h>          /* for videodev2.h */
 
 #include <linux/videodev2.h>
+#if defined (ANDROID)
 #include "uvcvideo.h"
 #include "video.h"
+#else
+#include <linux/uvcvideo.h>
+#include <linux/usb/video.h>
+#endif
 
 #include "Driver/OniDriverAPI.h"
 #include "XnLib.h"
