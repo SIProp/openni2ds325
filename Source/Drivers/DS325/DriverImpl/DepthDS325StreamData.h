@@ -42,13 +42,13 @@ public:
 	}
 
 	unsigned short *depth_map;
-	           int *ir_image;
+	unsigned char  *ir_image;
 	enum OWNER m_instance_owner;
 
 private:
 	DepthDS325StreamData() {
 		depth_map = (unsigned short *)malloc(sizeof(unsigned short) * (DEPTHSENSE_DEPTH_RESOLUTION_X*DEPTHSENSE_DEPTH_RESOLUTION_Y));
-		ir_image  = (int *)malloc(sizeof(int) * (DEPTHSENSE_DEPTH_RESOLUTION_X*DEPTHSENSE_DEPTH_RESOLUTION_Y));
+		ir_image  = (unsigned char  *)malloc(sizeof(unsigned char)  * (DEPTHSENSE_DEPTH_RESOLUTION_X*DEPTHSENSE_DEPTH_RESOLUTION_Y * 3));
 		m_instance_owner = NONE;
 	}
 	~DepthDS325StreamData() {

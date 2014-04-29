@@ -277,7 +277,7 @@ void DepthDS325Stream::set_image(unsigned char *src, int size) {
 	unsigned char *s;
 	unsigned char c, cs;
 	unsigned short *ldepth_map = NULL;
-	int *lir_image = NULL;
+	unsigned char *lir_image = NULL;
 	unsigned char flag1, flag2, dep, ir;
 	unsigned short d;
 	int r, g, b;
@@ -357,7 +357,9 @@ void DepthDS325Stream::set_image(unsigned char *src, int size) {
 			}
 
 			*ldepth_map++ = d;
-			*lir_image++  = 0xff000000 | ir;
+			*lir_image++  = ir;
+			*lir_image++  = 0;
+			*lir_image++  = 0;
 
 		} else {
 			flag1 = *s++;
