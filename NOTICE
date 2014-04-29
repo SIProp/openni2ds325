@@ -1,5 +1,6 @@
-OpenNI 2.0
+OpenNI 2.0 for DS325 on Android/ARM Linux
 Copyright (c) 2012 PrimeSense Ltd.
+Copyright (c) 2014 SIProp.org.
 
 This product is licensed under the Apache License, Version 2.0 (the "License");
 
@@ -8,8 +9,4 @@ along with OpenNI. If not, see:
     http://www.apache.org/licenses/LICENSE-2.0  
 
 This software is based in part on the work of the Independent JPEG Group.
-
-Your use of the library may involve use of the Microsoft Kinect for Windows Software Development Kit, 
-which is currently subject to the following license: 
-	http://www.microsoft.com/en-us/kinectforwindows/develop/sdk-eula.aspx
 

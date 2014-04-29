@@ -23,12 +23,12 @@
 #include <XnLog.h>
 #include <XnOSCpp.h>
 
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-static const char* ONI_CONFIGURATION_FILE = "/system/lib/OpenNI.ini";
-#else
 static const char* ONI_CONFIGURATION_FILE = "OpenNI.ini";
-#endif
 static const char* ONI_DEFAULT_DRIVERS_REPOSITORY = "OpenNI2" XN_FILE_DIR_SEP "Drivers";
+
+#if (ONI_PLATFORM == ONI_PLATFORM_ANDROID_ARM)
+static const char* ONI_ANDROID_SO_LIB_DIR = "/system/lib";
+#endif
 
 #define XN_MASK_ONI_CONTEXT "OniContext"
 
@@ -229,18 +229,27 @@ XnStatus Context::loadLibraries(const char* directoryName)
 	nRetVal = xnOSGetFileList(cpSearchString, NULL, acsFileList, nFileCount, &nFileCount);
 #else
 	// Android
-	nFileCount = 3;
+	nFileCount = 4;
 	acsFileList = XN_NEW_ARR(FileName, nFileCount);
 	strcpy(acsFileList[0], "libPS1080.so");
 	strcpy(acsFileList[1], "libOniFile.so");
 	strcpy(acsFileList[2], "libPSLink.so");
+	strcpy(acsFileList[3], "libDS325.so");
 #endif
 
 	// Save directory
 	XnChar workingDir[XN_FILE_MAX_PATH];
 	xnOSGetCurrentDir(workingDir, XN_FILE_MAX_PATH);
+#if (ONI_PLATFORM != ONI_PLATFORM_ANDROID_ARM)
 	// Change directory
 	xnOSSetCurrentDir(directoryName);
+#else
+	if(xnOSStrCmp(workingDir, "/") == 0) {
+		xnOSStrCopy(workingDir, ONI_ANDROID_SO_LIB_DIR, ONI_MAX_STR);
+	}
+	// Change directory
+	xnOSSetCurrentDir(workingDir);
+#endif
 
 	for (int i = 0; i < nFileCount; ++i)
 	{

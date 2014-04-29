@@ -125,6 +125,7 @@ if plat == 'android':
     # add config files
     shutil.copy('../Config/OpenNI.ini', outputDir)
     shutil.copy('../Config/OpenNI2/Drivers/PS1080.ini', outputDir)
+    shutil.copy('../Config/OpenNI2/Drivers/DS325.ini', outputDir)
 
     print('Creating archive ' + finalFile)
     subprocess.check_call(['tar', '-cf', finalFile, outputDir])

@@ -1,0 +1,1 @@
+Please copy files(.so&.ini) that are in undir "jni/libs/" dir to "/system/lib/" dir on your Android system.

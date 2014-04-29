@@ -34,6 +34,7 @@ DEPTH_UTILS = Source/DepthUtils
 # list all drivers
 ALL_DRIVERS = \
 	Source/Drivers/DummyDevice   \
+	Source/Drivers/DS325 \
 	Source/Drivers/PS1080 \
 	Source/Drivers/PSLink \
 	Source/Drivers/OniFile
@@ -126,6 +127,7 @@ Wrappers/java/OpenNI.jni:   $(OPENNI) $(XNLIB)
 
 Source/Drivers/DummyDevice: $(OPENNI) $(XNLIB)
 Source/Drivers/RawDevice:   $(OPENNI) $(XNLIB)
+Source/Drivers/DS325:       $(OPENNI) $(XNLIB)
 Source/Drivers/PS1080:      $(OPENNI) $(XNLIB) $(DEPTH_UTILS)
 Source/Drivers/PS1080/PS1080Console: $(OPENNI) $(XNLIB)
 Source/Drivers/PSLink:      $(OPENNI) $(XNLIB)
