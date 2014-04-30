@@ -27,7 +27,7 @@ SRC_FILES = \
 LIB_NAME = DS325
 
 LIB_DIRS = ../../../ThirdParty/PSCommon/XnLib/Bin/$(PLATFORM)-$(CFG)
-USED_LIBS = XnLib dl pthread
+USED_LIBS = XnLib dl pthread rt
 
 CFLAGS += -fpermissive -w
 
