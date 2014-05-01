@@ -22,6 +22,7 @@ Cross-Compiling for ARM on Linux:
   - ARM_STAGING=<path to cross-compilation staging dir>
   Then, run:
   $ PLATFORM=Arm make
+  - NOTE: for Raspberry Pi, check CFLAGS and DEFINES in ThirdParty/PSCommon/BuildSystem/Platform.Arm.
 
 Creating OpenNI2 package:
   - Go into the directory 'Packaging'
