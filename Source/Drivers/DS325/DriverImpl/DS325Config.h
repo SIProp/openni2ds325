@@ -28,6 +28,7 @@
 #include "XnPlatform.h"
 
 #define DS325_DEVICE_ID 0
+#define RESOLUTION_ID   1
 
 // Dummy function used only for taking its address for the sake of xnOSGetModulePathForProcAddress.
 static void dummyFunctionToTakeAddress() {}
@@ -87,6 +88,55 @@ public:
 			}
 		}
 		return isContour;
+	 }
+	 static int GetImageResolutionID() {
+		int resolution_id = RESOLUTION_ID;
+		XnStatus rc;
+		XnChar strModulePath[XN_FILE_MAX_PATH];
+		XnChar strOniConfigurationFile[XN_FILE_MAX_PATH];
+		XnBool configurationFileExists = FALSE;
+		XnChar strBaseDir[XN_FILE_MAX_PATH];
+		rc = xnOSGetModulePathForProcAddress(reinterpret_cast<void*>(&dummyFunctionToTakeAddress), strModulePath);
+		if(rc != XN_STATUS_OK) return resolution_id;
+
+		rc = xnOSGetDirName(strModulePath, strBaseDir, XN_FILE_MAX_PATH);
+		if(rc != XN_STATUS_OK) return resolution_id;
+
+		xnOSStrCopy(strOniConfigurationFile, strBaseDir, XN_FILE_MAX_PATH);
+		rc = xnOSAppendFilePath(strOniConfigurationFile, DS325_CONFIGURATION_FILE, XN_FILE_MAX_PATH);
+		if(rc == XN_STATUS_OK) {
+			xnOSDoesFileExist(strOniConfigurationFile, &configurationFileExists);
+		}
+		if(configurationFileExists) {
+			XnInt32 resID = 0;
+			rc = xnOSReadIntFromINI(strOniConfigurationFile, "Device", "imageResolution", &resID);
+			if (rc == XN_STATUS_OK) resolution_id = (int)resID;
+		}
+		return resolution_id;
+	 }
+	 static int GetImageResolutionX(int ID) {
+		 switch(ID) {
+		 case 0:
+			 return 160;
+		 case 1:
+			 return 320;
+		 case 2:
+			 return 640;
+		 default:
+			 return 320;
+		 }
+	 }
+	 static int GetImageResolutionY(int ID) {
+		 switch(ID) {
+		 case 0:
+			 return 120;
+		 case 1:
+			 return 240;
+		 case 2:
+			 return 480;
+		 default:
+			 return 240;
+		 }
 	 }
 
 };

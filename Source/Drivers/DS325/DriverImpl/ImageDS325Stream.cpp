@@ -22,6 +22,13 @@
 #include "ImageDS325Stream.h"
 #include "DS325Config.h"
 
+ImageDS325Stream::ImageDS325Stream() {
+	resID = DS325Config::GetImageResolutionID();
+	resX = DS325Config::GetImageResolutionX(resID);
+	resY = DS325Config::GetImageResolutionY(resID);
+}
+
+
 ImageDS325Stream::~ImageDS325Stream() {
 	stop();
 }
@@ -30,8 +37,8 @@ OniStatus ImageDS325Stream::SetVideoMode(OniVideoMode*) {return ONI_STATUS_NOT_I
 OniStatus ImageDS325Stream::GetVideoMode(OniVideoMode* pVideoMode) {
 	pVideoMode->pixelFormat = ONI_PIXEL_FORMAT_RGB888;
 	pVideoMode->fps = 30;
-	pVideoMode->resolutionX = DEPTHSENSE_COLOR_RESOLUTION_X;
-	pVideoMode->resolutionY = DEPTHSENSE_COLOR_RESOLUTION_Y;
+	pVideoMode->resolutionX = resX;
+	pVideoMode->resolutionY = resY;
 	return ONI_STATUS_OK;
 }
 
@@ -39,10 +46,10 @@ OniStatus ImageDS325Stream::start() {
 	OniStatus ret;
 	int device_id = DS325Config::GetDeviceID();
 
-	ret = start_stream(device_id, DEPTHSENSE_COLOR_RESOLUTION_X, DEPTHSENSE_COLOR_RESOLUTION_Y);
+	ret = start_stream(device_id, resX, resY);
 
 	if(ret != ONI_STATUS_ERROR) {
-		rgb_image = (unsigned char *)malloc(sizeof(unsigned char) * (DEPTHSENSE_COLOR_RESOLUTION_X*DEPTHSENSE_COLOR_RESOLUTION_Y * 3));
+		rgb_image = (unsigned char *)malloc(sizeof(unsigned char) * (resX * resY * 3));
 	}
 	return ret;
 }
@@ -64,11 +71,11 @@ void ImageDS325Stream::set_image(unsigned char *src, int size) {
 	int l, c;
 	int r, g, b, cr, cg, cb, y1, y2;
 
-	l = DEPTHSENSE_COLOR_RESOLUTION_Y;
+	l = resY;
 	s = src;
 	lrgb_image = &rgb_image[0];
 	while(l--) {
-		c = DEPTHSENSE_COLOR_RESOLUTION_X >> 1;
+		c = resX >> 1;
 		while(c--) {
 			y1 = *s++;
 			cb = ((*s - 128) * 454) >> 8;
@@ -118,20 +125,20 @@ void ImageDS325Stream::Mainloop() {
 		pFrame->frameIndex = frameId;
 
 		pFrame->videoMode.pixelFormat = ONI_PIXEL_FORMAT_RGB888;
-		pFrame->videoMode.resolutionX = DEPTHSENSE_COLOR_RESOLUTION_X;
-		pFrame->videoMode.resolutionY = DEPTHSENSE_COLOR_RESOLUTION_Y;
+		pFrame->videoMode.resolutionX = resX;
+		pFrame->videoMode.resolutionY = resY;
 		pFrame->videoMode.fps = 30;
 
-		pFrame->width = DEPTHSENSE_COLOR_RESOLUTION_X;
-		pFrame->height = DEPTHSENSE_COLOR_RESOLUTION_Y;
+		pFrame->width = resX;
+		pFrame->height = resY;
 
-		xnOSMemCopy(pFrame->data, &rgb_image[0], DEPTHSENSE_COLOR_RESOLUTION_X*DEPTHSENSE_COLOR_RESOLUTION_Y * 3);
+		xnOSMemCopy(pFrame->data, &rgb_image[0], resX * resY * 3);
 
 		pFrame->cropOriginX = pFrame->cropOriginY = 0;
 		pFrame->croppingEnabled = FALSE;
 
 		pFrame->sensorType = ONI_SENSOR_COLOR;
-		pFrame->stride = DEPTHSENSE_COLOR_RESOLUTION_X*3;
+		pFrame->stride = resX*3;
 		pFrame->timestamp = frameId*33000;
 
 		raiseNewFrame(pFrame);

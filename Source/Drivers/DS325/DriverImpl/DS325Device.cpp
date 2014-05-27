@@ -23,9 +23,12 @@
 #include "DepthDS325Stream.h"
 #include "IRDS325Stream.h"
 #include "DS325Device.h"
+#include "DS325Config.h"
 
 
 DS325Device::DS325Device(OniDeviceInfo* pInfo, oni::driver::DriverServices& driverServices) : m_pInfo(pInfo), m_driverServices(driverServices) {
+	int resID = DS325Config::GetImageResolutionID();
+
 	m_numSensors = 3;
 
 	m_sensors[0].pSupportedVideoModes = XN_NEW_ARR(OniVideoMode, 1);
@@ -41,8 +44,8 @@ DS325Device::DS325Device(OniDeviceInfo* pInfo, oni::driver::DriverServices& driv
 	m_sensors[1].numSupportedVideoModes = 1;
 	m_sensors[1].pSupportedVideoModes[0].pixelFormat = ONI_PIXEL_FORMAT_RGB888;
 	m_sensors[1].pSupportedVideoModes[0].fps = 30;
-	m_sensors[1].pSupportedVideoModes[0].resolutionX = DEPTHSENSE_COLOR_RESOLUTION_X;
-	m_sensors[1].pSupportedVideoModes[0].resolutionY = DEPTHSENSE_COLOR_RESOLUTION_Y;
+	m_sensors[1].pSupportedVideoModes[0].resolutionX = DS325Config::GetImageResolutionX(resID);
+	m_sensors[1].pSupportedVideoModes[0].resolutionY = DS325Config::GetImageResolutionY(resID);
 
 	m_sensors[2].pSupportedVideoModes = XN_NEW_ARR(OniVideoMode, 1);
 	m_sensors[2].sensorType = ONI_SENSOR_IR;

@@ -26,6 +26,7 @@
 
 class ImageDS325Stream : public DS325Stream {
 public:
+	ImageDS325Stream();
 	~ImageDS325Stream();
 
 	virtual OniStatus SetVideoMode(OniVideoMode*);
@@ -41,6 +42,10 @@ protected:
 
 private:
 	unsigned char *rgb_image;
+
+	int resID;
+	int resX;
+	int resY;
 
 	virtual void Mainloop();
 
