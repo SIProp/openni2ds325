@@ -13,6 +13,12 @@ Android
 Building
 ========
 Building on Linux:
+Linux (Ubuntu 14.04 for ARM)
+----------------------------
+
+  Install dependencies:
+  $ sudo apt-get install g++ python libusb-1.0-0-dev libudev-dev openjdk-6-jdk freeglut3-dev doxygen graphviz
+
   Run:
   $ make
   
